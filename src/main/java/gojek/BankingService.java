@@ -1,11 +1,12 @@
 package main.java.gojek;
 
-import main.java.gojek.Model.Balance;
 import main.java.gojek.Model.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.Arrays;
+import java.util.List;
 
 public class BankingService {
     public static void main(String[] args) throws IOException {
@@ -25,13 +26,13 @@ public class BankingService {
             }
             switch (arg) {
                 case 1:
-                    processCredit(reader, user.getBalance());
+                    processCredit(reader, user);
                     break;
                 case 2:
-                    processDebit(reader, user.getBalance());
+                    processDebit(reader, user);
                     break;
                 case 3:
-                    checkBalance(user.getBalance());
+                    checkBalance(user);
                     break;
                 default:
                     System.out.println("Please enter valid number.");
@@ -39,37 +40,37 @@ public class BankingService {
         }
     }
 
-    private Balance processInput(BufferedReader reader) throws IOException {
+    private List<Integer> processInput(BufferedReader reader) throws IOException {
         System.out.println("Enter Amount:");
         String input = reader.readLine();
         String[] values = input.split(" ");
-        Balance amount = new Balance();
+        int dollars = 0, cents = 0;
         if (values.length > 1) {
-            amount.setDollars(Integer.parseInt(values[0].substring(0, values[0].length() - 1)));
-            amount.setCents(Integer.parseInt(values[1].substring(0, values[1].length() - 1)));
+            dollars = Integer.parseInt(values[0].substring(0, values[0].length() - 1));
+            cents = Integer.parseInt(values[1].substring(0, values[1].length() - 1));
         } else {
             if (values[0].charAt(values[0].length() - 1) == 'D') {
-                amount.setDollars(Integer.parseInt(values[0].substring(0, values[0].length() - 1)));
+                dollars = Integer.parseInt(values[0].substring(0, values[0].length() - 1));
             } else {
-                amount.setCents(Integer.parseInt(values[0].substring(0, values[0].length() - 1)));
+                cents = Integer.parseInt(values[0].substring(0, values[0].length() - 1));
             }
         }
-        return amount;
+        return Arrays.asList(dollars, cents);
     }
 
-    private void processCredit(BufferedReader reader, Balance balance) throws IOException {
-        Balance amount = processInput(reader);
-        balance.credit(amount);
+    private void processCredit(BufferedReader reader, User user) throws IOException {
+        List<Integer> amount = processInput(reader);
+        user.credit(amount);
         System.out.println("Done");
     }
 
-    private void processDebit(BufferedReader reader, Balance balance) throws IOException {
-        Balance amount = processInput(reader);
-        balance.debit(amount);
+    private void processDebit(BufferedReader reader, User user) throws IOException {
+        List<Integer> amount = processInput(reader);
+        user.debit(amount);
         System.out.println("Done");
     }
 
-    private void checkBalance(Balance balance) {
-        System.out.println("Current Balance is " + balance.getBalance());
+    private void checkBalance(User user) {
+        System.out.println("Current Balance is " + user.getBalance());
     }
 }
