@@ -1,4 +1,4 @@
-package main.java.gojek.Exception;
+package main.java.gojek.exception;
 
 public class InvalidModeException extends RuntimeException {
 

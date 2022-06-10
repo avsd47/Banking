@@ -1,7 +1,7 @@
 package main.java.gojek.mode;
 
 import main.java.gojek.OutputPrinter;
-import main.java.gojek.Service.BankingService;
+import main.java.gojek.service.BankingService;
 import main.java.gojek.model.Bank;
 
 import java.io.*;

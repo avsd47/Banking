@@ -1,4 +1,4 @@
-package main.java.gojek.Service;
+package main.java.gojek.service;
 
 import main.java.gojek.OutputPrinter;
 import main.java.gojek.model.User;
