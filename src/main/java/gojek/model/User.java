@@ -1,4 +1,4 @@
-package main.java.gojek.Model;
+package main.java.gojek.model;
 
 import java.util.List;
 

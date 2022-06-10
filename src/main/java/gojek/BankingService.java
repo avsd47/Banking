@@ -1,47 +1,16 @@
 package main.java.gojek;
 
-import main.java.gojek.Model.User;
+import main.java.gojek.model.User;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.Arrays;
 import java.util.List;
 
 public class BankingService {
-    public static void main(String[] args) throws IOException {
-        new BankingService().execute();
-    }
 
-    private void execute() throws IOException {
-        User user = new User();
-        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-        while (true) {
-            System.out.print("Select an option:\n1. Credit\n2. Debit\n3. Check Balance\n4. Exit\n ==> ");
-            String input = reader.readLine();
-            int arg = Integer.parseInt(input);
-            if (arg == 4) {
-                System.out.println("Thank you!");
-                break;
-            }
-            switch (arg) {
-                case 1:
-                    processCredit(reader, user);
-                    break;
-                case 2:
-                    processDebit(reader, user);
-                    break;
-                case 3:
-                    checkBalance(user);
-                    break;
-                default:
-                    System.out.println("Please enter valid number.");
-            }
-        }
-    }
-
-    private List<Integer> processInput(BufferedReader reader) throws IOException {
-        System.out.println("Enter Amount:");
+    private  List<Integer> processInput(OutputPrinter outputPrinter, BufferedReader reader) throws IOException {
+        outputPrinter.enterAmount();
         String input = reader.readLine();
         String[] values = input.split(" ");
         int dollars = 0, cents = 0;
@@ -58,19 +27,19 @@ public class BankingService {
         return Arrays.asList(dollars, cents);
     }
 
-    private void processCredit(BufferedReader reader, User user) throws IOException {
-        List<Integer> amount = processInput(reader);
+    public void processCredit(OutputPrinter outputPrinter, BufferedReader reader, User user) throws IOException {
+        List<Integer> amount = processInput(outputPrinter, reader);
         user.credit(amount);
         System.out.println("Done");
     }
 
-    private void processDebit(BufferedReader reader, User user) throws IOException {
-        List<Integer> amount = processInput(reader);
+    public void processDebit(OutputPrinter outputPrinter, BufferedReader reader, User user) throws IOException {
+        List<Integer> amount = processInput(outputPrinter, reader);
         user.debit(amount);
         System.out.println("Done");
     }
 
-    private void checkBalance(User user) {
+    public void checkBalance(User user) {
         System.out.println("Current Balance is " + user.getBalance());
     }
 }

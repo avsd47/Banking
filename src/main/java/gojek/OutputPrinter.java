@@ -9,12 +9,20 @@ public class OutputPrinter {
         printWithNewLine("Select an option:\n1. Credit\n2. Debit\n3. Check Balance\n4. Exit\n ==> ");
     }
 
-    public void amount(){
+    public void enterAmount(){
         printWithNewLine("Enter Amount:");
+    }
+
+    public void enterValidNumber(){
+        printWithNewLine("Enter Valid Number: ");
     }
 
     public void thankYou(){
         printWithNewLine("Thank You!");
+    }
+
+    public void fileNotFound(){
+        printWithNewLine("File Not Found!");
     }
 
     public void printWithNewLine(String msg) {
