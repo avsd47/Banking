@@ -22,12 +22,22 @@ public class User {
         this.balanceCents = balanceCents;
     }
 
+    public User(){
+        this.setBalanceDollars(0);
+        this.setBalanceCents(0);
+    }
+
+    public User(int dollars, int cents){
+        this.setBalanceDollars(dollars);
+        this.setBalanceCents(cents);
+    }
+
     public void credit(List<Integer> amount) {
         int dollars = amount.get(0);
         int cents = amount.get(1);
         this.balanceCents += cents;
         int carry = 0;
-        if (Math.abs(this.balanceCents) > 100) {
+        if (Math.abs(this.balanceCents) >= 100) {
             carry = this.balanceCents / 100;
         }
         this.balanceCents %= 100;
@@ -40,7 +50,7 @@ public class User {
         int cents = amount.get(1);
         this.balanceCents -= cents;
         int carry = 0;
-        if (Math.abs(this.balanceCents) > 100) {
+        if (Math.abs(this.balanceCents) >= 100) {
             carry = this.balanceCents / 100;
         }
         this.balanceCents %= 100;
@@ -59,6 +69,7 @@ public class User {
     }
 
     public String getBalance() {
+        sanitizeBalance();
         return String.format("%dD %dC", this.getBalanceDollars(), this.getBalanceCents());
     }
 }
