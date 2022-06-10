@@ -1,14 +1,15 @@
 package main.java.gojek.mode;
 
-import main.java.gojek.BankingService;
 import main.java.gojek.OutputPrinter;
+import main.java.gojek.Service.BankingService;
 import main.java.gojek.model.Bank;
 
 import java.io.*;
 
-public class FileMode extends Mode{
+public class FileMode extends Mode {
     private String fileName;
-    public FileMode(Bank bank, BankingService bankingService, OutputPrinter outputPrinter, String fileName){
+
+    public FileMode(Bank bank, BankingService bankingService, OutputPrinter outputPrinter, String fileName) {
         super(bank, bankingService, outputPrinter);
 
     }
@@ -23,7 +24,7 @@ public class FileMode extends Mode{
             outputPrinter.fileNotFound();
             return;
         }
-        while (true){
+        while (true) {
             outputPrinter.menu();
             String input = reader.readLine();
             int arg = Integer.parseInt(input);

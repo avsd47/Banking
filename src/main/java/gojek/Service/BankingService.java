@@ -1,5 +1,6 @@
-package main.java.gojek;
+package main.java.gojek.Service;
 
+import main.java.gojek.OutputPrinter;
 import main.java.gojek.model.User;
 
 import java.io.BufferedReader;
@@ -9,7 +10,7 @@ import java.util.List;
 
 public class BankingService {
 
-    private  List<Integer> processInput(OutputPrinter outputPrinter, BufferedReader reader) throws IOException {
+    private List<Integer> processInput(OutputPrinter outputPrinter, BufferedReader reader) throws IOException {
         outputPrinter.enterAmount();
         String input = reader.readLine();
         String[] values = input.split(" ");

@@ -2,7 +2,8 @@ package main.java.gojek.model;
 
 public class Bank {
     User user;
-    public Bank(){
+
+    public Bank() {
         this.user = new User();
     }
 
