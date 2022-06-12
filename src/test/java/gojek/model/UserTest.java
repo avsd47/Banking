@@ -12,7 +12,7 @@ public class UserTest {
 
     @Test
     public void testCredit(){
-        User user = new User();
+        User user = new User(5);
         user.credit(Arrays.asList(10,5));
         assertEquals("10D 5C", user.getBalance());
         user.credit(Arrays.asList(-9,-105));
@@ -23,7 +23,7 @@ public class UserTest {
 
     @Test
     public void testDebit(){
-        User user = new User();
+        User user = new User(1);
         user.debit(Arrays.asList(10,5));
         assertEquals("-10D -5C", user.getBalance());
         user.debit(Arrays.asList(-9,-105));
@@ -34,7 +34,7 @@ public class UserTest {
 
     @Test
     public void testBalance(){
-        User user = new User(10, -90);
+        User user = new User(10, -90, 1);
         assertEquals("9D 10C",user.getBalance());
     }
 }

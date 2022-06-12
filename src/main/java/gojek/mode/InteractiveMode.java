@@ -1,6 +1,8 @@
 package main.java.gojek.mode;
 
 import main.java.gojek.OutputPrinter;
+import main.java.gojek.commands.CommandExecutorFactory;
+import main.java.gojek.model.Command;
 import main.java.gojek.service.BankingService;
 import main.java.gojek.model.Bank;
 
@@ -10,35 +12,51 @@ import java.io.InputStreamReader;
 
 public class InteractiveMode extends Mode {
 
-    public InteractiveMode(Bank bank, BankingService bankingService, OutputPrinter outputPrinter) {
-        super(bank, bankingService, outputPrinter);
+    public InteractiveMode(CommandExecutorFactory commandExecutorFactory, OutputPrinter outputPrinter) {
+        super(commandExecutorFactory, outputPrinter);
     }
 
     @Override
     public void process() throws IOException {
         outputPrinter.welcome();
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        outputPrinter.enterUserId();
+        String input = reader.readLine();
+        int userId = Integer.parseInt(input);
+        Command command;
         while (true) {
             outputPrinter.menu();
-            String input = reader.readLine();
+            input = reader.readLine();
             int arg = Integer.parseInt(input);
-            if (arg == 4) {
+            if (arg == 5) {
                 System.out.println("Thank you!");
                 break;
             }
             switch (arg) {
                 case 1:
-                    bankingService.processCredit(outputPrinter, reader, bank.getUser());
+                    outputPrinter.enterAmount();
+                    input = reader.readLine();
+                    command = new Command(input);
+                    processCommand(userId, 1, command);
                     break;
                 case 2:
-                    bankingService.processDebit(outputPrinter, reader, bank.getUser());
+                    outputPrinter.enterAmount();
+                    input = reader.readLine();
+                    command = new Command(input);
+                    processCommand(userId, 2, command);
                     break;
                 case 3:
-                    bankingService.checkBalance(bank.getUser());
+                    outputPrinter.enterTranferIdAndAmount();
+                    input = reader.readLine();
+                    command = new Command(input);
+                    processCommand(userId, 3, command);
                     break;
+                case 4:
+
                 default:
-                    System.out.println("Please enter valid number.");
+                    outputPrinter.enterValidNumber();
             }
         }
     }
+
 }

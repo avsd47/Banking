@@ -1,5 +1,6 @@
 package main.java.gojek;
 
+import main.java.gojek.commands.CommandExecutorFactory;
 import main.java.gojek.exception.InvalidModeException;
 import main.java.gojek.service.BankingService;
 import main.java.gojek.mode.FileMode;
@@ -12,11 +13,12 @@ public class Main {
     public static void main(final String[] args) throws IOException {
         OutputPrinter outputPrinter = new OutputPrinter();
         BankingService bankingService = new BankingService();
-        Bank bank = new Bank();
+        CommandExecutorFactory commandExecutorFactory = new CommandExecutorFactory(bankingService);
+
         if (isInteractiveMode(args)) {
-            new InteractiveMode(bank, bankingService, outputPrinter).process();
+            new InteractiveMode(commandExecutorFactory, outputPrinter).process();
         } else if (isFileInputMode(args)) {
-            new FileMode(bank, bankingService, outputPrinter, args[0]).process();
+            new FileMode(commandExecutorFactory, outputPrinter, args[0]).process();
         } else {
             throw new InvalidModeException();
         }

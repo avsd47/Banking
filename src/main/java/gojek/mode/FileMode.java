@@ -1,6 +1,8 @@
 package main.java.gojek.mode;
 
 import main.java.gojek.OutputPrinter;
+import main.java.gojek.commands.CommandExecutorFactory;
+import main.java.gojek.model.Command;
 import main.java.gojek.service.BankingService;
 import main.java.gojek.model.Bank;
 
@@ -9,24 +11,20 @@ import java.io.*;
 public class FileMode extends Mode {
     private String fileName;
 
-    public FileMode(Bank bank, BankingService bankingService, OutputPrinter outputPrinter, String fileName) {
-        super(bank, bankingService, outputPrinter);
+    public FileMode(CommandExecutorFactory commandExecutorFactory, OutputPrinter outputPrinter, String fileName) {
+        super(commandExecutorFactory, outputPrinter);
 
     }
 
     @Override
     public void process() throws IOException {
-        File file = new File(fileName);
-        BufferedReader reader;
-        try {
-            reader = new BufferedReader(new FileReader(file));
-        } catch (FileNotFoundException e) {
-            outputPrinter.fileNotFound();
-            return;
-        }
+        BufferedReader reader = new BufferedReader(new FileReader(fileName));
+        String input = reader.readLine();
+        int userId = Integer.parseInt(input);
+        Command command;
         while (true) {
             outputPrinter.menu();
-            String input = reader.readLine();
+            input = reader.readLine();
             int arg = Integer.parseInt(input);
             if (arg == 4) {
                 System.out.println("Thank you!");
@@ -34,16 +32,25 @@ public class FileMode extends Mode {
             }
             switch (arg) {
                 case 1:
-                    bankingService.processCredit(outputPrinter, reader, bank.getUser());
+                    outputPrinter.enterAmount();
+                    input = reader.readLine();
+                    command = new Command(input);
+                    processCommand(userId, 1, command);
                     break;
                 case 2:
-                    bankingService.processDebit(outputPrinter, reader, bank.getUser());
+                    outputPrinter.enterAmount();
+                    input = reader.readLine();
+                    command = new Command(input);
+                    processCommand(userId, 2, command);
                     break;
                 case 3:
-                    bankingService.checkBalance(bank.getUser());
+                    outputPrinter.enterTranferIdAndAmount();
+                    input = reader.readLine();
+                    command = new Command(input);
+                    processCommand(userId, 3, command);
                     break;
                 default:
-                    return;
+                    outputPrinter.enterValidNumber();
             }
         }
     }

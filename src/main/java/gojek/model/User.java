@@ -3,8 +3,17 @@ package main.java.gojek.model;
 import java.util.List;
 
 public class User {
+    private int userId;
+
     private int balanceDollars;
     private int balanceCents;
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
 
     public int getBalanceDollars() {
         return this.balanceDollars;
@@ -22,14 +31,16 @@ public class User {
         this.balanceCents = balanceCents;
     }
 
-    public User(){
+    public User(int userId){
         this.setBalanceDollars(0);
         this.setBalanceCents(0);
+        this.setUserId(userId);
     }
 
-    public User(int dollars, int cents){
+    public User(int dollars, int cents, int userId){
         this.setBalanceDollars(dollars);
         this.setBalanceCents(cents);
+        this.setUserId(userId);
     }
 
     public void credit(List<Integer> amount) {
